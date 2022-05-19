@@ -1,0 +1,39 @@
+---
+title: "Shopify"
+author: "Da Kuang"
+date: "5/19/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+setwd("D:/OneDrive - University of Florida/Job/Application Quesions")
+Shopify <- read.csv("Shopify.csv")
+```
+
+### Q1
+#### a.
+```{r}
+boxplot(Shopify$total_items)###Because of the outliers (total_items=2000, the AOV would be improved a lot. Thus, it would be going wrong) 
+unique(Shopify$total_items)
+Shopify_1 <- Shopify[Shopify$total_items != 2000,]###We need to delete the outlier(total_items=2000)
+(AOV_NEW <- sum(Shopify_1$order_amount)/nrow(Shopify_1))
+```
+
+#### b.
+## Metric1: Median order value
+## Metric2: Use the sum of order amount by shop as the metric 
+
+#### c.
+```{r}
+(Metric1 <- median(Shopify$order_amount))
+library(dplyr)
+Shopify_2 <- group_by(Shopify, shop_id)
+Metric2 <- summarise(Shopify_2, order_amount_by_shop = sum(order_amount))
+Metric2
+```
+
